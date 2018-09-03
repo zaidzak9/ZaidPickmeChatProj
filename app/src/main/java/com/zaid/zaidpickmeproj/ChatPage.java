@@ -1,6 +1,8 @@
 package com.zaid.zaidpickmeproj;
 
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -14,6 +16,7 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 
 import com.zaid.zaidpickmeproj.adapter.ChatAdapter;
+import com.zaid.zaidpickmeproj.helper.Database;
 import com.zaid.zaidpickmeproj.model.ChatMessage;
 
 import java.text.DateFormat;
@@ -37,10 +40,11 @@ public class ChatPage extends AppCompatActivity {
     ImageView toolbarBtn_cancel_button;
     @BindView(R.id.ChatParentLayout)
     RelativeLayout ChatParentLayout;
-
+    SQLiteDatabase sqLiteDatabase;
+    Cursor cursor;
+    Database db;
     private ChatAdapter adapter;
-    boolean didisend = false;
-
+    String DateandTime;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,6 +53,12 @@ public class ChatPage extends AppCompatActivity {
         ButterKnife.bind(this);
         adapter = new ChatAdapter(ChatPage.this, new ArrayList<ChatMessage>());
         messagesContainer.setAdapter(adapter);
+        db = new Database(this);
+
+        if (db.checkformessages() > 1) {
+            loadHistory();
+        }
+        DateandTime = DateFormat.getDateTimeInstance().format(new Date());
     }
 
     @OnClick(R.id.chatSendButton)
@@ -59,14 +69,14 @@ public class ChatPage extends AppCompatActivity {
         }
 
         ChatMessage chatMessage = new ChatMessage();
-        chatMessage.setId(122);//dummy
+        chatMessage.setId(122);//dummy id if needed for future purpose.
         chatMessage.setMessage(messageText);
-        chatMessage.setDate(DateFormat.getDateTimeInstance().format(new Date()));
+        chatMessage.setDate(DateandTime);
         chatMessage.setMe(false);
-
         messageET.setText("");
-
         displayMessage(chatMessage);
+        insertChatMessagetoDb(messageText,DateandTime,"false");
+        replicateDriverMessage();
     }
 
     public void displayMessage(ChatMessage message) {
@@ -84,6 +94,57 @@ public class ChatPage extends AppCompatActivity {
         Intent gotoLogin = new Intent(this,Login.class);
         startActivity(gotoLogin);
         this.finish();
+    }
+
+    private void replicateDriverMessage(){
+        ChatMessage chatMessage = new ChatMessage();
+        chatMessage.setId(122);//dummy id if needed for future purpose.
+        chatMessage.setMessage("Acknowledged by driver!");
+        chatMessage.setDate(DateandTime);
+        chatMessage.setMe(true); //this means message recieved from oppostite person
+        displayMessage(chatMessage);
+        insertChatMessagetoDb("Acknowledged by driver!",DateandTime,"true");
+    }
+
+    private void insertChatMessagetoDb(String message,String time_name, String type){
+        boolean result = db.insertChatInfo(message,time_name,type);
+
+        if (result){
+            Log.wtf("Database result :","Succesfully Item Inserted!");
+        }else{
+            Log.wtf("Database result :","Failed to insert Item!");
+        }
+    }
+
+    private void loadHistory(){
+        String chatmessage,time_date,type;
+
+        cursor = db.getchatinfo();
+        try {
+
+            cursor.moveToFirst();
+            do {
+                chatmessage = cursor.getString(0);
+                time_date = cursor.getString(1);
+                type = cursor.getString(2);
+                Log.wtf("Data of passed messages : ","Chat : " + chatmessage + " " + time_date + " " + type );
+                loadHistoryMessages(chatmessage,time_date,type);
+            }
+            while (cursor.moveToNext());
+
+
+        } catch (Exception e) {
+            Log.wtf("Exception - ", e);
+        }
+
+    }
+
+    private void loadHistoryMessages(String message,String time_name, String type){
+        ChatMessage msgHistory = new ChatMessage();
+        msgHistory.setMessage(message);
+        msgHistory.setDate(time_name);
+        msgHistory.setMe(Boolean.parseBoolean(type));
+        displayMessage(msgHistory);
     }
 
 }
