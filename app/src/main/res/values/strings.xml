@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">ZaidPickmeProj</string>
+    <string name="login_btn">Login</string>
+    <string name="username">abc@abc.com</string>
+    <string name="password">123456</string>
+    <string name="Login_to_your_accnt">Login to your account!</string>
+    <string name="error_message_username">Please enter username abc@abc.com</string>
+    <string name="error_message_password">Please enter password 123456</string>
+    error_message_email
+</resources>
