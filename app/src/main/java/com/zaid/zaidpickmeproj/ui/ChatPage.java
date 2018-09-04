@@ -1,30 +1,29 @@
-package com.zaid.zaidpickmeproj;
+package com.zaid.zaidpickmeproj.ui;
 
 import android.content.Intent;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupMenu;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
 
+import com.zaid.zaidpickmeproj.R;
 import com.zaid.zaidpickmeproj.adapter.ChatAdapter;
 import com.zaid.zaidpickmeproj.helper.Database;
 import com.zaid.zaidpickmeproj.model.ChatMessage;
 
 import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -47,7 +46,6 @@ public class ChatPage extends AppCompatActivity implements PopupMenu.OnMenuItemC
     ImageView toolbarBtn_cancel_button;
     @BindView(R.id.ChatParentLayout)
     RelativeLayout ChatParentLayout;
-    //SQLiteDatabase sqLiteDatabase;
     Cursor cursor;
     Database db;
     private ChatAdapter adapter;
@@ -81,9 +79,9 @@ public class ChatPage extends AppCompatActivity implements PopupMenu.OnMenuItemC
             return;
         }
 
-        replicateMessage(messageText,"false");
+        replicateMessage(messageText,"User ","false");
         messageET.setText("");
-        replicateMessage("Acknowledged by driver!","true");
+        replicateMessage("Acknowledged by driver!","Driver ","true");
     }
 
     public void displayMessage(ChatMessage message) {
@@ -103,17 +101,17 @@ public class ChatPage extends AppCompatActivity implements PopupMenu.OnMenuItemC
         this.finish();
     }
 
-    private void replicateMessage(String message,String type){
+    private void replicateMessage(String message,String name,String type){
 //        true = message from driver
 //        false = message from user
-        
+
         ChatMessage chatMessage = new ChatMessage();
         chatMessage.setId(122);//dummy id if needed for future purpose.
         chatMessage.setMessage(message);//user message or driver message goes here
-        chatMessage.setDate(DateandTime); //date and time of message sent
+        chatMessage.setDate(name + DateandTime); //date and time of message sent
         chatMessage.setMe(Boolean.parseBoolean(type)); //this means message recieved from oppostite person
         displayMessage(chatMessage);
-        insertChatMessagetoDb(message,DateandTime,type); //inserting message details in database
+        insertChatMessagetoDb(message,name + DateandTime,type); //inserting message details in database
     }
 
     private void insertChatMessagetoDb(String message,String time_name, String type){
@@ -162,20 +160,20 @@ public class ChatPage extends AppCompatActivity implements PopupMenu.OnMenuItemC
         //Toast.makeText(this, "Selected Item: " +menuItem.getTitle(), Toast.LENGTH_SHORT).show();
         switch (menuItem.getItemId()) {
             case R.id.message_1:
-                replicateMessage((String) menuItem.getTitle(),"false");
-                replicateMessage("Ok noted i will be there asap!","true");
+                replicateMessage((String) menuItem.getTitle(),"User","false");
+                replicateMessage("Ok noted i will be there asap!","driver","true");
                 return true;
             case R.id.message_2:
-                replicateMessage((String) menuItem.getTitle(),"false");
-                replicateMessage("Yes i am here","true");
+                replicateMessage((String) menuItem.getTitle(),"User","false");
+                replicateMessage("Yes i am here","driver","true");
                 return true;
             case R.id.message_3:
-                replicateMessage((String) menuItem.getTitle(),"false");
-                replicateMessage("Depends on the traffic","true");
+                replicateMessage((String) menuItem.getTitle(),"User","false");
+                replicateMessage("Depends on the traffic","driver","true");
                 return true;
             case R.id.message_4:
-                replicateMessage((String) menuItem.getTitle(),"false");
-                replicateMessage("Great,im here too","true");
+                replicateMessage((String) menuItem.getTitle(),"User","false");
+                replicateMessage("Great,im here too","driver","true");
                 return true;
             case R.id.cancel:
                 PopupMenu popup = new PopupMenu(ChatPage.this,view);
@@ -184,6 +182,7 @@ public class ChatPage extends AppCompatActivity implements PopupMenu.OnMenuItemC
             default:
                 return false;
         }
+
     }
 
     public void quickmessage(View view) {
@@ -191,5 +190,6 @@ public class ChatPage extends AppCompatActivity implements PopupMenu.OnMenuItemC
         popup.setOnMenuItemClickListener(ChatPage.this);
         popup.inflate(R.menu.popup_menu);
         popup.show();
+
     }
 }

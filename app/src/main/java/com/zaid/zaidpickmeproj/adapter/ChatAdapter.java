@@ -12,11 +12,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 
-import com.zaid.zaidpickmeproj.ChatPage;
 import com.zaid.zaidpickmeproj.R;
 import com.zaid.zaidpickmeproj.model.ChatMessage;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -85,10 +83,7 @@ public class ChatAdapter extends BaseAdapter {
         chatMessages.addAll(messages);
     }
 
-//    public void add(List<ChatMessage> messages) {
-//        chatMessages.addAll(messages);
-//    }
-
+    //when adapter recieves data it checks if message was sent by driver or user, and accrodingly chat bubble alignment is set
     private void setAlignment(ViewHolder holder, boolean isMe) {
         if (!isMe) {
             //holder.contentWithBG.setBackgroundResource(R.drawable.in_message_bg);
@@ -111,7 +106,6 @@ public class ChatAdapter extends BaseAdapter {
             layoutParams.gravity = Gravity.RIGHT;
             holder.txtInfo.setLayoutParams(layoutParams);
         } else {
-            //holder.contentWithBG.setBackgroundResource(R.drawable.out_message_bg);
             holder.contentWithBG.setBackgroundResource(R.drawable.border_tv_chat_out);
 
             LinearLayout.LayoutParams layoutParams =

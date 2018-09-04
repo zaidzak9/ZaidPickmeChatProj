@@ -5,7 +5,7 @@ xmlns:tools="http://schemas.android.com/tools"
 android:layout_width="match_parent"
 android:layout_height="match_parent"
     android:id="@+id/ChatParentLayout"
-tools:context=".ChatPage">
+tools:context=".ui.ChatPage">
 
     <include layout="@layout/toolbar_button" android:id="@+id/toolbarchat"></include>
 
@@ -30,11 +30,13 @@ tools:context=".ChatPage">
             android:id="@+id/quick_message"
             android:onClick="quickmessage"
             android:textSize="10dp"
+            android:textColor="@color/white"
+            android:backgroundTint="@color/black"
             android:gravity="center"
             android:layout_gravity="bottom"/>
         <EditText
             android:id="@+id/messageEdit"
-            android:hint="Enter message"
+            android:hint="Start type..."
             android:background="@color/white"
             android:layout_gravity="center"
             android:layout_width="wrap_content"
@@ -48,6 +50,8 @@ tools:context=".ChatPage">
             android:clickable="true"
             android:layout_width="64dp"
             android:layout_height="48dp"
+            android:backgroundTint="@color/black"
+            android:textColor="@color/white"
             android:text="send"
             android:gravity="center"
             android:layout_gravity="bottom" />

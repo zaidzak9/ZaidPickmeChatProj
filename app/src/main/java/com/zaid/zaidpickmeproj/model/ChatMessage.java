@@ -2,11 +2,11 @@ package com.zaid.zaidpickmeproj.model;
 
 
 public class ChatMessage {
-        private long id;
-        private boolean isMe;
-        private String message;
-        private Long userId;
-        private String dateTime;
+    private long id;
+    private boolean isMe;
+    private String message;
+    private Long userId;
+    private String dateTime;
     private String Histroydatetime;
 
     public String getHistroydatetime() {
@@ -18,38 +18,43 @@ public class ChatMessage {
     }
 
 
+    public long getId() {
+        return id;
+    }
 
-        public long getId() {
-            return id;
-        }
-        public void setId(long id) {
-            this.id = id;
-        }
-        public boolean getIsme() {
-            return isMe;
-        }
-        public void setMe(boolean isMe) {
-            this.isMe = isMe;
-        }
-        public String getMessage() {
-            return message;
-        }
-        public void setMessage(String message) {
-            this.message = message;
-        }
-        public long getUserId() {
-            return userId;
-        }
+    public void setId(long id) {
+        this.id = id;
+    }
 
-        public void setUserId(long userId) {
-            this.userId = userId;
-        }
+    public boolean getIsme() {
+        return isMe;
+    }
 
-        public String getDate() {
-            return dateTime;
-        }
+    public void setMe(boolean isMe) {
+        this.isMe = isMe;
+    }
 
-        public void setDate(String dateTime) {
-            this.dateTime = dateTime;
-        }
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    public long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(long userId) {
+        this.userId = userId;
+    }
+
+    public String getDate() {
+        return dateTime;
+    }
+
+    public void setDate(String dateTime) {
+        this.dateTime = dateTime;
+    }
 }

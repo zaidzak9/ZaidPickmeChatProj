@@ -8,7 +8,7 @@
     android:id="@+id/parentLayout"
     android:background="@color/lightPink"
     android:padding="20dp"
-    tools:context=".Login">
+    tools:context=".ui.Login">
 
     <TextView
         android:id="@+id/login_message_tv"
