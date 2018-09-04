@@ -8,12 +8,17 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.PopupMenu;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.zaid.zaidpickmeproj.adapter.ChatAdapter;
 import com.zaid.zaidpickmeproj.helper.Database;
@@ -27,56 +32,58 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class ChatPage extends AppCompatActivity {
+public class ChatPage extends AppCompatActivity implements PopupMenu.OnMenuItemClickListener {
     @BindView(R.id.messageEdit)
     EditText messageET;
     @BindView(R.id.messagesContainer)
     ListView messagesContainer;
     @BindView(R.id.chatSendButton)
     Button chatSendButton;
+    @BindView(R.id.quick_message)
+    Button quick_message;
     @BindView(R.id.toolbarchat)
     Toolbar toolbarchat;
     @BindView(R.id.toolbarBtn_cancel_button)
     ImageView toolbarBtn_cancel_button;
     @BindView(R.id.ChatParentLayout)
     RelativeLayout ChatParentLayout;
-    SQLiteDatabase sqLiteDatabase;
+    //SQLiteDatabase sqLiteDatabase;
     Cursor cursor;
     Database db;
     private ChatAdapter adapter;
     String DateandTime;
+    View view;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getSupportActionBar().hide();
         setContentView(R.layout.activity_chat_page);
+        //butterknife library used for binding between ui elements and activity
         ButterKnife.bind(this);
         adapter = new ChatAdapter(ChatPage.this, new ArrayList<ChatMessage>());
         messagesContainer.setAdapter(adapter);
+        //creating object of database for usage
         db = new Database(this);
 
+        //checking if database contains any past messages oncreate to load.
         if (db.checkformessages() > 1) {
             loadHistory();
         }
+        //getting date and time for referral
         DateandTime = DateFormat.getDateTimeInstance().format(new Date());
     }
 
     @OnClick(R.id.chatSendButton)
     public void sendMessage() {
+        //checking if message box is empty
         String messageText = messageET.getText().toString();
         if (TextUtils.isEmpty(messageText)) {
             return;
         }
 
-        ChatMessage chatMessage = new ChatMessage();
-        chatMessage.setId(122);//dummy id if needed for future purpose.
-        chatMessage.setMessage(messageText);
-        chatMessage.setDate(DateandTime);
-        chatMessage.setMe(false);
+        replicateMessage(messageText,"false");
         messageET.setText("");
-        displayMessage(chatMessage);
-        insertChatMessagetoDb(messageText,DateandTime,"false");
-        replicateDriverMessage();
+        replicateMessage("Acknowledged by driver!","true");
     }
 
     public void displayMessage(ChatMessage message) {
@@ -96,14 +103,17 @@ public class ChatPage extends AppCompatActivity {
         this.finish();
     }
 
-    private void replicateDriverMessage(){
+    private void replicateMessage(String message,String type){
+//        true = message from driver
+//        false = message from user
+        
         ChatMessage chatMessage = new ChatMessage();
         chatMessage.setId(122);//dummy id if needed for future purpose.
-        chatMessage.setMessage("Acknowledged by driver!");
-        chatMessage.setDate(DateandTime);
-        chatMessage.setMe(true); //this means message recieved from oppostite person
+        chatMessage.setMessage(message);//user message or driver message goes here
+        chatMessage.setDate(DateandTime); //date and time of message sent
+        chatMessage.setMe(Boolean.parseBoolean(type)); //this means message recieved from oppostite person
         displayMessage(chatMessage);
-        insertChatMessagetoDb("Acknowledged by driver!",DateandTime,"true");
+        insertChatMessagetoDb(message,DateandTime,type); //inserting message details in database
     }
 
     private void insertChatMessagetoDb(String message,String time_name, String type){
@@ -147,4 +157,39 @@ public class ChatPage extends AppCompatActivity {
         displayMessage(msgHistory);
     }
 
+    @Override
+    public boolean onMenuItemClick(MenuItem menuItem) {
+        //Toast.makeText(this, "Selected Item: " +menuItem.getTitle(), Toast.LENGTH_SHORT).show();
+        switch (menuItem.getItemId()) {
+            case R.id.message_1:
+                replicateMessage((String) menuItem.getTitle(),"false");
+                replicateMessage("Ok noted i will be there asap!","true");
+                return true;
+            case R.id.message_2:
+                replicateMessage((String) menuItem.getTitle(),"false");
+                replicateMessage("Yes i am here","true");
+                return true;
+            case R.id.message_3:
+                replicateMessage((String) menuItem.getTitle(),"false");
+                replicateMessage("Depends on the traffic","true");
+                return true;
+            case R.id.message_4:
+                replicateMessage((String) menuItem.getTitle(),"false");
+                replicateMessage("Great,im here too","true");
+                return true;
+            case R.id.cancel:
+                PopupMenu popup = new PopupMenu(ChatPage.this,view);
+                popup.dismiss();
+                return true;
+            default:
+                return false;
+        }
+    }
+
+    public void quickmessage(View view) {
+        PopupMenu popup = new PopupMenu(ChatPage.this,view);
+        popup.setOnMenuItemClickListener(ChatPage.this);
+        popup.inflate(R.menu.popup_menu);
+        popup.show();
+    }
 }

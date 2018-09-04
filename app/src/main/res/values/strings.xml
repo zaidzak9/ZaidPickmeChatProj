@@ -6,5 +6,10 @@
     <string name="Login_to_your_accnt">Login to your account!</string>
     <string name="error_message_username">Please enter username abc@abc.com</string>
     <string name="error_message_password">Please enter password 123456</string>
-    error_message_email
+
+    <string name="message_1">Pick up location is correct</string>
+    <string name="message_2">Are you here?</string>
+    <string name="message_3">Will you be late?</string>
+    <string name="message_4">Im at the location</string>
+    <string name="cancel">Cancel</string>
 </resources>
