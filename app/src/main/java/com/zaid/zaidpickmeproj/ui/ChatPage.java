@@ -160,20 +160,20 @@ public class ChatPage extends AppCompatActivity implements PopupMenu.OnMenuItemC
         //Toast.makeText(this, "Selected Item: " +menuItem.getTitle(), Toast.LENGTH_SHORT).show();
         switch (menuItem.getItemId()) {
             case R.id.message_1:
-                replicateMessage((String) menuItem.getTitle(),"User","false");
-                replicateMessage("Ok noted i will be there asap!","driver","true");
+                replicateMessage((String) menuItem.getTitle(),"User ","false");
+                replicateMessage("Ok noted i will be there asap!","Driver ","true");
                 return true;
             case R.id.message_2:
-                replicateMessage((String) menuItem.getTitle(),"User","false");
-                replicateMessage("Yes i am here","driver","true");
+                replicateMessage((String) menuItem.getTitle(),"User ","false");
+                replicateMessage("Yes i am here","Driver ","true");
                 return true;
             case R.id.message_3:
-                replicateMessage((String) menuItem.getTitle(),"User","false");
-                replicateMessage("Depends on the traffic","driver","true");
+                replicateMessage((String) menuItem.getTitle(),"User ","false");
+                replicateMessage("Depends on the traffic","Driver ","true");
                 return true;
             case R.id.message_4:
-                replicateMessage((String) menuItem.getTitle(),"User","false");
-                replicateMessage("Great,im here too","driver","true");
+                replicateMessage((String) menuItem.getTitle(),"User ","false");
+                replicateMessage("Great,im here too","Driver ","true");
                 return true;
             case R.id.cancel:
                 PopupMenu popup = new PopupMenu(ChatPage.this,view);
