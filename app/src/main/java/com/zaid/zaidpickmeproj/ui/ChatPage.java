@@ -186,6 +186,7 @@ public class ChatPage extends AppCompatActivity implements PopupMenu.OnMenuItemC
     }
 
     public void quickmessage(View view) {
+        //these quick messages can be hardcoded as well as retireved from server side
         PopupMenu popup = new PopupMenu(ChatPage.this,view);
         popup.setOnMenuItemClickListener(ChatPage.this);
         popup.inflate(R.menu.popup_menu);

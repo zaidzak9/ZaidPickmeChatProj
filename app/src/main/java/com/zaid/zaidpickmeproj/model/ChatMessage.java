@@ -1,5 +1,9 @@
 package com.zaid.zaidpickmeproj.model;
 
+/*
+    This file can be edited as per needs,more items can be added to enhance the chat
+    functionality.
+ */
 
 public class ChatMessage {
     private long id;
