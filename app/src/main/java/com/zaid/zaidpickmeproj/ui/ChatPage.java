@@ -102,6 +102,7 @@ public class ChatPage extends AppCompatActivity implements PopupMenu.OnMenuItemC
         //getting date and time for referral
         DateandTime = DateFormat.getDateTimeInstance().format(new Date());
 
+        //service to fetch history from
         pubnub.history()
                 .channel(channel_id) // where to fetch history from
                 .count(1000) // how many items to fetch
@@ -131,6 +132,7 @@ public class ChatPage extends AppCompatActivity implements PopupMenu.OnMenuItemC
                     }
                 });
 
+        //service to listen to the incoming messages
         pubnub.addListener(new SubscribeCallback() {
             @Override
             public void status(PubNub pubnub, PNStatus status) {
@@ -223,6 +225,8 @@ public class ChatPage extends AppCompatActivity implements PopupMenu.OnMenuItemC
         if (TextUtils.isEmpty(messageText)) {
             return;
         }
+
+        //service for the outgoing messages
         chatBody = new ChatBody(messageText,chatname);
        pubnub.publish().channel(channel_id).message(chatBody).async(new PNCallback<PNPublishResult>() {
             @Override
