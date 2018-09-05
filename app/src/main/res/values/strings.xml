@@ -1,11 +1,14 @@
 <resources>
     <string name="app_name">ZaidPickmeProj</string>
     <string name="login_btn">Login</string>
-    <string name="username">abc@abc.com</string>
+    <string name="channel">Enter a Channel to chat in</string>
+    <string name="chatid">Username</string>
     <string name="password">123456</string>
     <string name="Login_to_your_accnt">Login to your account!</string>
-    <string name="error_message_username">Please enter username abc@abc.com</string>
+    <string name="error_message_channel">Please enter Channel name</string>
     <string name="error_message_password">Please enter password 123456</string>
+    <string name="error_chatid">Please enter your chat id</string>
+    <string name="warning_message">*Please make sure that you and your freind enter the exact same channel name everytime you login to be directed to the same chat,Username can be unique,but once you select the Username please use the same username everytime for server to identify your profile*</string>
 
     <string name="message_1">Pick up location is correct</string>
     <string name="message_2">Are you here?</string>

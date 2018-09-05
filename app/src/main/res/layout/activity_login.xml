@@ -24,8 +24,14 @@
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/username_et"
-        android:hint="@string/username"/>
+        android:id="@+id/chatid_et"
+        android:hint="@string/chatid"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/channel_et"
+        android:hint="@string/channel"/>
 
     <EditText
         android:layout_width="match_parent"
@@ -42,6 +48,13 @@
         android:textCursorDrawable="@color/darkYellow"
         android:backgroundTint="@color/colorAccent"
         android:text="@string/login_btn"/>
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:paddingTop="10sp"
+        android:layout_height="wrap_content"
+        android:text="@string/warning_message"/>
 
 
 

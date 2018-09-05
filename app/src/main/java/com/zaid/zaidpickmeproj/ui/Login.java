@@ -17,10 +17,12 @@ import butterknife.OnClick;
 
 public class Login extends AppCompatActivity {
 
-    @BindView(R.id.username_et)
-    EditText usernameField;
+    @BindView(R.id.channel_et)
+    EditText channelField;
     @BindView(R.id.password_et)
     EditText passwordField;
+    @BindView(R.id.chatid_et)
+    EditText chatid;
     @BindView(R.id.parentLayout)
     LinearLayout parentLayout;
 
@@ -34,22 +36,26 @@ public class Login extends AppCompatActivity {
 
     @OnClick(R.id.login_btn)
     public void login() {
-        String username = usernameField.getText().toString().trim();
+        String chatname = chatid.getText().toString();
+        String channel = channelField.getText().toString().trim();
         String password = passwordField.getText().toString();
 
-        if (TextUtils.isEmpty(username)) {
-            usernameField.requestFocus();
-            usernameField.setError(getString(R.string.error_message_username));
-        } else if (!ValidationHelper.isValidEmail(username)) {
-            usernameField.requestFocus();
-            usernameField.setError(getString(R.string.error_message_username));
-        } else if (TextUtils.isEmpty(password)) {
+        if (TextUtils.isEmpty(channel)) {
+            channelField.requestFocus();
+            channelField.setError(getString(R.string.error_message_channel));
+        }
+       else if (TextUtils.isEmpty(password)) {
             passwordField.requestFocus();
             passwordField.setError(getString(R.string.error_message_password));
+        }else if (TextUtils.isEmpty(chatname)) {
+            chatid.requestFocus();
+            chatid.setError(getString(R.string.error_chatid));
         } else {
 
-            if (username.matches("abc@abc.com") && password.matches("123456") ) {
+            if (password.matches("123456") ) {
                 Intent gotoHome = new Intent(this, ChatPage.class);
+                gotoHome.putExtra("chatname",chatname);
+                gotoHome.putExtra("channelid",channel);
                 startActivity(gotoHome);
             }else{
                 Toast.makeText(this, "Wrong Credentials", Toast.LENGTH_SHORT).show();
